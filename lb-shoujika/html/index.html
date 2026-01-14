@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机运营商</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- 主菜单 -->
+        <div id="mainMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-mobile-alt"></i> 手机运营商</h1>
+                <button class="close-btn" onclick="closeMenu()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="panel-content">
+                <div class="menu-grid">
+                    <div class="menu-card" onclick="showMyNumbers()">
+                        <div class="card-icon"><i class="fas fa-mobile-screen-button"></i></div>
+                        <div class="card-title">我的手机号</div>
+                        <div class="card-subtitle" id="numbersCount">加载中...</div>
+                    </div>
+                    <div class="menu-card" onclick="showPurchaseMenu()">
+                        <div class="card-icon"><i class="fas fa-cart-shopping"></i></div>
+                        <div class="card-title">购买新号码</div>
+                        <div class="card-subtitle">选择套餐购买</div>
+                    </div>
+                    <div class="menu-card" onclick="showRechargeMenu()" id="rechargeCard" style="display: none;">
+                        <div class="card-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div class="card-title">充值话费</div>
+                        <div class="card-subtitle">为手机号充值</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的手机号列表 -->
+        <div id="myNumbersMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-mobile-screen-button"></i> 我的手机号</h1>
+                <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="numbersList" class="list-container">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手机号详情 -->
+        <div id="numberDetailMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-info-circle"></i> 手机号详情</h1>
+                <button class="back-btn" onclick="showMyNumbers()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="numberDetail" class="detail-container">
+                    <!-- 动态加载 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 购买菜单 -->
+        <div id="purchaseMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-cart-shopping"></i> 购买新号码</h1>
+                <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="packagesList" class="list-container">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 套餐选择（随机/靓号） -->
+        <div id="packageOptionsMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-box"></i> 选择号码类型</h1>
+                <button class="back-btn" onclick="showPurchaseMenu()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="packageOptions" class="options-container">
+                    <!-- 动态加载 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 靓号选择 -->
+        <div id="premiumNumbersMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-star"></i> 选择靓号</h1>
+                <button class="back-btn" onclick="showPackageOptions()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="premiumNumbersList" class="list-container">
+                    <div class="loading">正在生成靓号列表...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 充值菜单 -->
+        <div id="rechargeMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-money-bill-wave"></i> 充值话费</h1>
+                <button class="back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i"></button>
+            </div>
+            <div class="panel-content">
+                <div id="rechargeNumbersList" class="list-container">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 充值方式选择 -->
+        <div id="rechargeMethodMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-credit-card"></i> 选择充值方式</h1>
+                <button class="back-btn" onclick="showRechargeMenu()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="rechargeMethods" class="options-container">
+                    <!-- 动态加载 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 充值金额输入 -->
+        <div id="rechargeAmountMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-dollar-sign"></i> 输入充值金额</h1>
+                <button class="back-btn" onclick="showRechargeMethodMenu()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div class="input-container">
+                    <label>充值金额</label>
+                    <input type="number" id="rechargeAmount" placeholder="请输入金额" min="1">
+                    <div class="input-hint">最小金额: $<span id="minAmount">1</span> | 最大金额: $<span id="maxAmount">10000</span></div>
+                    <button class="btn-primary" onclick="confirmRecharge()">确认充值</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 历史记录 -->
+        <div id="historyMenu" class="menu-panel">
+            <div class="panel-header">
+                <h1><i class="fas fa-history"></i> <span id="historyTitle">历史记录</span></h1>
+                <button class="back-btn" onclick="showNumberDetail()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="panel-content">
+                <div id="historyList" class="list-container">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
